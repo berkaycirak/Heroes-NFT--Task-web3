@@ -22,13 +22,16 @@ function WalletCard() {
 
     setBalance(ethBalance);
   };
-  const daiAddress = ' 0x9e3F28C3c37ac77684730e223aa7c0621a206CD6';
 
-  const daiAbi = data;
-  const daiContract = new ethers.Contract(daiAddress, daiAbi, provider);
+  const showContract = async () => {
+    // Be careful, this is a case sensitive. You must check lower case and capital cases.If you write that addres different than conract contract addres given to you, you will get ENS(Ethereum Name Service) error.
+    const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 
-  console.log(daiContract);
+    const daiAbi = data;
+    const daiContract = new ethers.Contract(daiAddress, daiAbi, provider);
 
+    console.log(await daiContract.tokenURI(1));
+  };
   return (
     <div className='wallet'>
       <div>
@@ -39,6 +42,7 @@ function WalletCard() {
           Get Balance
         </button>
         <div>Your Balance: {balance}</div>
+        <button onClick={showContract}>Show Smart Contract</button>
       </div>
     </div>
   );
