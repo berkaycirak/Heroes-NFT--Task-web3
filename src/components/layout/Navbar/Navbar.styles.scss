@@ -1,0 +1,24 @@
+.navbar {
+  font-family: 'Audiowide', sans-serif;
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  max-width: 1903px;
+  margin: auto;
+
+  &-list {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+
+    .logo {
+      cursor: pointer;
+    }
+
+    li {
+      color: white;
+    }
+  }
+}
