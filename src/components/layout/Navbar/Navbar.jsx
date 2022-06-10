@@ -8,13 +8,22 @@ function Navbar() {
       <nav>
         <ul className='navbar-list'>
           <li className='logo'>
-            <img src={logo} alt='logo' />
-          </li>
-          <li>
-            <Link className='link' to='/cards'>
-              Cards
+            <Link to='/'>
+              <img src={logo} alt='logo' />
             </Link>
           </li>
+          <div className='navbar-links'>
+            <li>
+              <Link className='link' to='/cards'>
+                <span>CARDS</span>
+              </Link>
+            </li>
+            <li>
+              <Link className='link' to='/wallet'>
+                <span>WALLET</span>
+              </Link>
+            </li>
+          </div>
         </ul>
       </nav>
     </div>

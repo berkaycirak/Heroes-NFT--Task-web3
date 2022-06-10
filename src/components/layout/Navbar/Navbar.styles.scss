@@ -3,8 +3,9 @@
   position: absolute;
   z-index: 1000;
   width: 100%;
-  max-width: 1903px;
+  max-width: 1800px;
   margin: auto;
+  padding: 0 50px;
 
   &-list {
     display: flex;
@@ -15,10 +16,29 @@
 
     .logo {
       cursor: pointer;
+      display: block;
     }
 
     li {
       color: white;
+    }
+
+    .navbar-links {
+      display: flex;
+
+      .link {
+        padding: 20px;
+
+        span {
+          transition: 500ms;
+        }
+        &:hover {
+          span {
+            color: #fff;
+            text-shadow: 0 0 10px #fff;
+          }
+        }
+      }
     }
   }
 }
