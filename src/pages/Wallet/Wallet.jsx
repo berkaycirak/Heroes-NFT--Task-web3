@@ -1,20 +1,26 @@
 import './Wallet.styles.scss';
 import { ethers } from 'ethers';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 function Wallet() {
   // This code runs a web3 provider .
   let provider = new ethers.providers.Web3Provider(window.ethereum);
   let signer;
-
   const [balance, setBalance] = useState(null);
 
   // This function helps us to connect metamask.
   const connectWalletHandler = async () => {
-    await provider.send('eth_requestAccounts', []);
+    try {
+      await provider.send('eth_requestAccounts', []);
 
-    signer = provider.getSigner();
-    console.log('Account address:', await signer.getAddress());
+      signer = provider.getSigner();
+      console.log('Account address:', await signer.getAddress());
+
+      toast.success('You are connected.');
+    } catch (error) {
+      toast.error('There is a problem while connecting MetaMask');
+    }
   };
 
   const getBalanceHandler = async () => {

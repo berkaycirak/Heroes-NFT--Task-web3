@@ -23,13 +23,14 @@ code {
   font-size: 18px;
 }
 
+// For BUTTON
 button,
 .btn {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 50px;
-  width: 200px;
+  width: 100px;
   border: 1px solid #d186f7;
   background-color: rgb(8, 8, 8);
   color: white;
