@@ -1,4 +1,5 @@
 import './Wallet.styles.scss';
+import data from '../../data/data.json';
 import { ethers } from 'ethers';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -8,6 +9,7 @@ function Wallet() {
   let provider = new ethers.providers.Web3Provider(window.ethereum);
   let signer;
   const [balance, setBalance] = useState(null);
+  const [walletAddress, setWalletAddress] = useState('');
 
   // This function helps us to connect metamask.
   const connectWalletHandler = async () => {
@@ -15,7 +17,7 @@ function Wallet() {
       await provider.send('eth_requestAccounts', []);
 
       signer = provider.getSigner();
-      console.log('Account address:', await signer.getAddress());
+      setWalletAddress(await signer.getAddress());
 
       toast.success('You are connected.');
     } catch (error) {
@@ -31,6 +33,12 @@ function Wallet() {
     setBalance(ethBalance);
   };
 
+  const showCards = async () => {
+    const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+    const daiABI = data;
+    const myContract = new ethers.Contract(daiAddress, daiABI, provider);
+  };
+
   return (
     <div className='wallet-container'>
       <div className='wallet'>
@@ -41,6 +49,7 @@ function Wallet() {
           Get Balance
         </button>
         <div>Your Balance: {balance}</div>
+        <button onClick={showCards}>Show My Cards</button>
       </div>
     </div>
   );

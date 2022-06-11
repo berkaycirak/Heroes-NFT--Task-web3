@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ContractProvider } from './context/SmartContract';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Wallet from './pages/Wallet/Wallet';
@@ -8,7 +9,7 @@ import Explore from './pages/Explore/Explore';
 
 function App() {
   return (
-    <>
+    <ContractProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -28,7 +29,7 @@ function App() {
           pauseOnHover
         />
       </BrowserRouter>
-    </>
+    </ContractProvider>
   );
 }
 
