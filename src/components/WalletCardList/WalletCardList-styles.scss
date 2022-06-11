@@ -1,4 +1,11 @@
 .cardList {
-  padding: 10rem 15rem;
+  position: relative;
+  z-index: 999;
+  padding-top: 15rem;
+  padding-left: 15rem;
+  padding-right: 15rem;
   text-align: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 3rem;
 }

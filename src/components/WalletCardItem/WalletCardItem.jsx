@@ -2,8 +2,8 @@ import './WalletCardItem.styles.scss';
 
 function WalletCardItem({ image }) {
   return (
-    <div cardItem>
-      <img className='cardItem-image' src={image} alt='' />;<p>HELLO</p>
+    <div className='cardItem'>
+      <img className='cardItem-image' src={image} alt='' />
     </div>
   );
 }

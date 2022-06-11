@@ -16,22 +16,30 @@ function Cards() {
   useEffect(() => {
     try {
       // Contract Instance Creation
-      const showContract = async () => {
+      const showCards = async () => {
         // Be careful, this is a case sensitive. You must check lower case and capital cases.If you write that addres different than conract contract addres given to you, you will get ENS(Ethereum Name Service) error.
 
         // In order to see, how many NFTs owner has. Since totalSupply returns a bigNumber, I convert that big number into normal number
-        const x = await myContract.totalSupply();
-        console.log(ethers.utils.formatEther(x).toString() / 1e-18);
+        let totalCards = await myContract.totalSupply();
+        totalCards = ethers.utils.formatEther(totalCards).toString() / 1e-18;
+        totalCards = Number(totalCards);
 
-        const tokenURI = await myContract.tokenURI(1);
-        const response = await fetch(tokenURI);
+        let cardArray = [];
 
-        const { image } = await response.json();
-        setItems(image);
+        for (let i = 0; i < totalCards; i++) {
+          const tokenURI = await myContract.tokenURI(i);
+          const response = await fetch(tokenURI);
+          const { image } = await response.json();
+          cardArray.push(image);
+        }
+
+        setItems(cardArray);
+        if (cardArray.length > 0) {
+          setLoading(false);
+        }
       };
 
-      showContract();
-      setLoading(false);
+      showCards();
     } catch (error) {
       toast.error("Couldn't fetch cards.");
     }
@@ -41,7 +49,7 @@ function Cards() {
 
   return (
     <div className='card-container'>
-      {loading ? <Spinner /> : <WalletCardList image={items} />}
+      {loading ? <Spinner /> : <WalletCardList images={items} />}
     </div>
   );
 }
