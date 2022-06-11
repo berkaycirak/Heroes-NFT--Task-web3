@@ -1,7 +1,8 @@
 import './Wallet.styles.scss';
 import data from '../../data/data.json';
 import { ethers } from 'ethers';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import ContractContext from '../../context/SmartContract';
 import { toast } from 'react-toastify';
 
 function Wallet() {
@@ -10,6 +11,7 @@ function Wallet() {
   let signer;
   const [balance, setBalance] = useState(null);
   const [walletAddress, setWalletAddress] = useState('');
+  const { myContract } = useContext(ContractContext);
 
   // This function helps us to connect metamask.
   const connectWalletHandler = async () => {
@@ -26,11 +28,8 @@ function Wallet() {
   };
 
   const getBalanceHandler = async () => {
-    const balance = await signer.getBalance();
-    // We should convert the balance to the ethereum. Therefore, we divide balance by 1e18.
-    const ethBalance = balance.toString() / 1e18;
-
-    setBalance(ethBalance);
+    const yourBalance = await myContract.balanceOf(walletAddress);
+    console.log(ethers.utils.formatEther(yourBalance).toString() / 1e-18);
   };
 
   const showCards = async () => {
@@ -48,7 +47,7 @@ function Wallet() {
         <button onClick={getBalanceHandler} className='balance'>
           Get Balance
         </button>
-        <div>Your Balance: {balance}</div>
+
         <button onClick={showCards}>Show My Cards</button>
       </div>
     </div>

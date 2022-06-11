@@ -5,8 +5,7 @@ function WalletCardList({ image }) {
   // You will map card list here.Each will return a card Item
   return (
     <div className='cardList'>
-      return (<WalletCardItem image={image} />
-      );
+      <WalletCardItem image={image} />
     </div>
   );
 }

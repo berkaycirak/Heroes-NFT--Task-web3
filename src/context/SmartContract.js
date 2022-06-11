@@ -5,6 +5,7 @@ import data from '../data/data.json';
 const ContractContext = createContext();
 
 export const ContractProvider = ({ children }) => {
+  // Contract Instance
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
   const daiABI = data;

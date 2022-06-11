@@ -1,0 +1,10 @@
+.cardItem {
+  height: 800px;
+  width: 700px;
+
+  &-image {
+    display: inline-block;
+    position: relative;
+    z-index: 1000;
+  }
+}

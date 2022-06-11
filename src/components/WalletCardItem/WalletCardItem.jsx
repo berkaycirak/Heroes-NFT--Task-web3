@@ -1,7 +1,11 @@
-import './WalletCard.styles.scss';
+import './WalletCardItem.styles.scss';
 
 function WalletCardItem({ image }) {
-  return <img src={image} alt='' />;
+  return (
+    <div cardItem>
+      <img className='cardItem-image' src={image} alt='' />;<p>HELLO</p>
+    </div>
+  );
 }
 
 export default WalletCardItem;
