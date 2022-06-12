@@ -9,6 +9,7 @@ export const ContractProvider = ({ children }) => {
   // Initialize State
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLogged, setIsLogged] = useState(false);
   // Contract Instance
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
@@ -57,6 +58,8 @@ export const ContractProvider = ({ children }) => {
         myContract,
         items,
         loading,
+        isLogged,
+        setIsLogged,
       }}
     >
       {children}
