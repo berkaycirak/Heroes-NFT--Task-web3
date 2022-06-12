@@ -1,8 +1,12 @@
 import './Navbar.styles.scss';
 import logo from '../../../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <div className='navbar'>
       <nav>
@@ -14,14 +18,28 @@ function Navbar() {
           </li>
           <div className='navbar-links'>
             <li>
-              <Link className='link' to='/cards'>
-                <span>CARDS</span>
-              </Link>
+              <span
+                onClick={() => {
+                  navigate('/cards');
+                }}
+                className={`link ${
+                  location.pathname === '/cards' && 'active'
+                } `}
+              >
+                CARDS
+              </span>
             </li>
             <li>
-              <Link className='link' to='/wallet'>
-                <span>WALLET</span>
-              </Link>
+              <span
+                onClick={() => {
+                  navigate('/wallet');
+                }}
+                className={`link ${
+                  location.pathname === '/wallet' && 'active'
+                } `}
+              >
+                WALLET
+              </span>
             </li>
           </div>
         </ul>
