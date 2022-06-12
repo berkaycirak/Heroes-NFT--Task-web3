@@ -1,15 +1,23 @@
 .cardList-container {
   position: relative;
   z-index: 999;
+  max-width: 1400px;
+  margin: auto;
   padding-top: 10rem;
-  padding-left: 15rem;
-  padding-right: 15rem;
   text-align: center;
+
+  @media (max-width: 1000px) {
+    max-width: 600px;
+  }
 
   .cardList {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 3rem;
+
+    @media (max-width: 1000px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .searchDiv {

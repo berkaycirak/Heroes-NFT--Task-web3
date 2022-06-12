@@ -47,3 +47,17 @@ button,
     opacity: 1;
   }
 }
+
+//Scrollbar
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: black;
+  border-left: 1px solid rgb(27, 27, 27);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d186f7;
+}
