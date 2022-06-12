@@ -2,11 +2,15 @@ import './Wallet.styles.scss';
 
 import { useContext } from 'react';
 import CardList from '../../components/CardList/CardList';
-import ContractContext from '../../context/SmartContractActions';
+import ContractContext from '../../context/HeroesContext';
 
 function Wallet() {
-  const { getBalanceHandler, connectWalletHandler, filteredTokens } =
-    useContext(ContractContext);
+  const {
+    getBalanceHandler,
+    connectWalletHandler,
+    filteredTokens,
+    getTokenCollection,
+  } = useContext(ContractContext);
 
   return (
     <div className='wallet-container'>
@@ -19,6 +23,9 @@ function Wallet() {
           </button>
           <button onClick={getBalanceHandler} className='balance'>
             Get Balance
+          </button>
+          <button onClick={getTokenCollection} className='balance'>
+            My NFTs
           </button>
         </div>
       )}

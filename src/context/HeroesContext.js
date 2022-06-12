@@ -1,4 +1,5 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
+import heroesReducer from './HeroesReducer';
 import { ethers } from 'ethers';
 import data from '../data/data.json';
 import { toast } from 'react-toastify';
@@ -13,13 +14,18 @@ let signer;
 const ContractContext = createContext();
 
 export const ContractProvider = ({ children }) => {
-  // Initialize State
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isLogged, setIsLogged] = useState(false);
-  const [walletAddress, setWalletAddress] = useState('');
-  const [tokensOwner, setTokensOwner] = useState([]);
-  const [filteredTokens, setFilteredTokens] = useState([]);
+  // Initialize Reducer State
+  const initialState = {
+    items: [],
+    loading: false,
+    isLogged: false,
+    walletAddress: '',
+    tokensOwner: [],
+    filteredTokens: [],
+  };
+
+  const [state, dispatch] = useReducer(heroesReducer, initialState);
+
   // Contract Instance
   const myContract = new ethers.Contract(daiAddress, daiABI, provider);
 
@@ -27,8 +33,8 @@ export const ContractProvider = ({ children }) => {
 
   useEffect(() => {
     // Contract Instance Creation
-    const showCards = async () => {
-      // Be careful, this is a case sensitive. You must check lower case and capital cases.If you write that addres different than conract contract addres given to you, you will get ENS(Ethereum Name Service) error.
+    const getCards = async () => {
+      setLoading();
 
       // totalSupply method on ABI will return a bigNumber that tells us total NFTs of owner.
       let totalCards = await myContract.totalSupply();
@@ -46,78 +52,90 @@ export const ContractProvider = ({ children }) => {
         cardArray.push(cardData);
       }
 
+      // MIGHT NOT WORK !!!!!!!!!!!!!!!!!
+
       // After looping is done, pass that cardArray into items.
-      setItems(cardArray);
-
-      // When loop is finished, I break the loading.
-      if (cardArray.length > 0) {
-        setLoading(false);
-      }
+      dispatch({
+        type: 'GET_CONTRACT_DATA',
+        payload: cardArray,
+      });
     };
-    showCards();
-
-    // eslint-disable-next-line
+    getCards();
   }, []);
 
   // Connect Wallet
   const connectWalletHandler = async () => {
     try {
       await provider.send('eth_requestAccounts', []);
-
       signer = provider.getSigner();
+      const address = await signer.getAddress();
 
-      setWalletAddress(await signer.getAddress());
+      dispatch({
+        type: 'GET_USER_ADDRESS',
+        payload: address,
+      });
 
       toast.success('You are connected.');
-      setIsLogged(true);
     } catch (error) {
-      toast.error('There is a problem while connecting MetaMask');
+      toast.error('An error is occured while connecting MetaMask!');
     }
+  };
+
+  // Get User NFT Collection
+  const getTokenCollection = async () => {
+    const nftCollection = await myContract.tokensOfOwner(state.walletAddress);
+
+    dispatch({ type: 'GET_USER_NFTs', payload: nftCollection });
   };
 
   // Get Balance of user
   const getBalanceHandler = async () => {
-    let yourBalance = await myContract.balanceOf(walletAddress);
+    let yourBalance = await myContract.balanceOf(state.walletAddress);
     yourBalance = ethers.utils.formatEther(yourBalance).toString() / 1e-18;
-    const nftCollection = await myContract.tokensOfOwner(walletAddress);
-    setTokensOwner(nftCollection);
   };
 
   //Get Users NFTs
 
   useEffect(() => {
     // This will return id of the each token. Since return value is a big Number, we should convert it to normal number
-    const getUserNFTs = async () => {
+    const showUserNFTs = async () => {
       // If no tokensOwner is changed, then do not run that function
-      if (!tokensOwner) return;
+      if (!state.tokensOwner) return;
 
       const nftArray = [];
-      tokensOwner.forEach((token) => {
+      state.tokensOwner.forEach((token) => {
         let x = ethers.utils.formatEther(token).toString() / 1e-18;
         x = x.toFixed(0);
         nftArray.push(Number(x));
       });
 
       // If items are not loaded yet, you will not see any filteredNFT. You should wait till items are loaded.
-      const filteredNFTs = items.filter((item) => nftArray.includes(item.id));
+      const filteredNFTs = state.items.filter((item) =>
+        nftArray.includes(item.id)
+      );
 
-      setFilteredTokens(filteredNFTs);
+      dispatch({ type: 'SHOW_USER_NFTs', payload: filteredNFTs });
     };
-    getUserNFTs();
-  }, [tokensOwner, items]);
-  console.log(filteredTokens);
+    showUserNFTs();
+  }, [state.tokensOwner, state.items]);
+
+  // Set Loading
+  const setLoading = () =>
+    dispatch({
+      type: 'SET_LOADING',
+    });
 
   return (
     <ContractContext.Provider
       value={{
+        items: state.items,
+        loading: state.loading,
+        walletAddress: state.walletAddress,
+        isLogged: state.isLogged,
+        filteredTokens: state.filteredTokens,
         myContract,
-        items,
-        loading,
-        isLogged,
-        setIsLogged,
         connectWalletHandler,
-        getBalanceHandler,
-        filteredTokens,
+        getTokenCollection,
       }}
     >
       {children}
