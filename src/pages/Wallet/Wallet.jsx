@@ -1,8 +1,8 @@
 import './Wallet.styles.scss';
-import data from '../../data/data.json';
+
 import { ethers } from 'ethers';
 import { useState, useContext } from 'react';
-import ContractContext from '../../context/SmartContract';
+import ContractContext from '../../context/SmartContractActions';
 import { toast } from 'react-toastify';
 
 function Wallet() {
@@ -32,12 +32,6 @@ function Wallet() {
     console.log(ethers.utils.formatEther(yourBalance).toString() / 1e-18);
   };
 
-  const showCards = async () => {
-    const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-    const daiABI = data;
-    const myContract = new ethers.Contract(daiAddress, daiABI, provider);
-  };
-
   return (
     <div className='wallet-container'>
       <div className='wallet'>
@@ -47,8 +41,6 @@ function Wallet() {
         <button onClick={getBalanceHandler} className='balance'>
           Get Balance
         </button>
-
-        <button onClick={showCards}>Show My Cards</button>
       </div>
     </div>
   );

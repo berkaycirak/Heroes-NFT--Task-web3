@@ -12,7 +12,6 @@ function WalletCardList({ cardData }) {
   const changeHandler = (e) => {
     setSearchText(e.target.value.toLocaleLowerCase());
   };
-  console.log(searchText);
 
   // In order to filter data
   useEffect(() => {

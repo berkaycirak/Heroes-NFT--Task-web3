@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ContractProvider } from './context/SmartContract';
+import { ContractProvider } from './context/SmartContractActions';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Wallet from './pages/Wallet/Wallet';
