@@ -1,6 +1,13 @@
 import { createContext, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import data from '../data/data.json';
+import { toast } from 'react-toastify';
+
+// Contract Instance
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+const daiABI = data;
+let signer;
 
 // Creating Context API
 const ContractContext = createContext();
@@ -10,10 +17,10 @@ export const ContractProvider = ({ children }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLogged, setIsLogged] = useState(false);
+  const [walletAddress, setWalletAddress] = useState('');
+  const [tokensOwner, setTokensOwner] = useState([]);
+  const [filteredTokens, setFilteredTokens] = useState([]);
   // Contract Instance
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-  const daiABI = data;
   const myContract = new ethers.Contract(daiAddress, daiABI, provider);
 
   // Fetching URI from Smart Contract, when app is started, fetching will also be started.
@@ -52,6 +59,54 @@ export const ContractProvider = ({ children }) => {
     // eslint-disable-next-line
   }, []);
 
+  // Connect Wallet
+  const connectWalletHandler = async () => {
+    try {
+      await provider.send('eth_requestAccounts', []);
+
+      signer = provider.getSigner();
+
+      setWalletAddress(await signer.getAddress());
+
+      toast.success('You are connected.');
+      setIsLogged(true);
+    } catch (error) {
+      toast.error('There is a problem while connecting MetaMask');
+    }
+  };
+
+  // Get Balance of user
+  const getBalanceHandler = async () => {
+    let yourBalance = await myContract.balanceOf(walletAddress);
+    yourBalance = ethers.utils.formatEther(yourBalance).toString() / 1e-18;
+    const nftCollection = await myContract.tokensOfOwner(walletAddress);
+    setTokensOwner(nftCollection);
+  };
+
+  //Get Users NFTs
+
+  useEffect(() => {
+    // This will return id of the each token. Since return value is a big Number, we should convert it to normal number
+    const getUserNFTs = async () => {
+      // If no tokensOwner is changed, then do not run that function
+      if (!tokensOwner) return;
+
+      const nftArray = [];
+      tokensOwner.forEach((token) => {
+        let x = ethers.utils.formatEther(token).toString() / 1e-18;
+        x = x.toFixed(0);
+        nftArray.push(Number(x));
+      });
+
+      // If items are not loaded yet, you will not see any filteredNFT. You should wait till items are loaded.
+      const filteredNFTs = items.filter((item) => nftArray.includes(item.id));
+
+      setFilteredTokens(filteredNFTs);
+    };
+    getUserNFTs();
+  }, [tokensOwner, items]);
+  console.log(filteredTokens);
+
   return (
     <ContractContext.Provider
       value={{
@@ -60,6 +115,9 @@ export const ContractProvider = ({ children }) => {
         loading,
         isLogged,
         setIsLogged,
+        connectWalletHandler,
+        getBalanceHandler,
+        filteredTokens,
       }}
     >
       {children}
