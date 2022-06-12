@@ -12,14 +12,21 @@
     grid-gap: 3rem;
   }
 
-  .searchBox {
-    border: 1px solid white;
-    margin-bottom: 5rem;
-    background-color: black;
-    opacity: 0.5;
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    padding: 10px;
+  .searchDiv {
+    .searchNote {
+      display: block;
+      color: white;
+      margin-bottom: 1rem;
+    }
+    .searchBox {
+      border: 1px solid white;
+      margin-bottom: 5rem;
+      background-color: black;
+      opacity: 0.5;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      padding: 10px;
+    }
   }
 }

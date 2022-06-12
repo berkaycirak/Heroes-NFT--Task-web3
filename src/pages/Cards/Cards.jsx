@@ -26,7 +26,7 @@ function Cards() {
 
         let cardArray = [];
 
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 50; i++) {
           const tokenURI = await myContract.tokenURI(i);
           const response = await fetch(tokenURI);
           const cardData = await response.json();

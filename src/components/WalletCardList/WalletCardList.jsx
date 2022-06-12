@@ -1,24 +1,43 @@
 import WalletCardItem from '../WalletCardItem//WalletCardItem';
 import './WalletCardList-styles.scss';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function WalletCardList({ cardData }) {
   // You will map cardData here. It contains name,image,attributes...
+  const [searchText, setSearchText] = useState('');
+  const [filteredData, setFilteredData] = useState(cardData);
 
-  const changeHandler = (e) => {};
+  // This helps us to change search text in box.
+  const changeHandler = (e) => {
+    setSearchText(e.target.value.toLocaleLowerCase());
+  };
+  console.log(searchText);
+
+  // In order to filter data
+  useEffect(() => {
+    const newFilteredData = cardData.filter((item) => {
+      return item.attributes[0].value.toLocaleLowerCase().includes(searchText);
+    });
+    setFilteredData(newFilteredData);
+  }, [searchText]);
 
   return (
     <div className='cardList-container'>
-      <input
-        type='search'
-        className='searchBox'
-        placeholder='Search Rarity or Card'
-        onChange={changeHandler}
-      />
+      <div className='searchDiv'>
+        <label className='searchNote'>
+          Rarity Types: Epic, Legendary, Rare, Uncommon, Common
+        </label>
+        <input
+          type='search'
+          className='searchBox'
+          placeholder='Search Rarity'
+          onChange={changeHandler}
+        />
+      </div>
 
       <div className='cardList'>
-        {cardData.map((data) => (
+        {filteredData.map((data) => (
           <WalletCardItem
             key={data.id}
             image={data.image}
