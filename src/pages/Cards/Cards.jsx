@@ -10,7 +10,7 @@ import WalletCardList from '../../components/WalletCardList/WalletCardList';
 function Cards() {
   const { myContract } = useContext(ContractContext);
 
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,14 +26,16 @@ function Cards() {
 
         let cardArray = [];
 
-        for (let i = 0; i < totalCards; i++) {
+        for (let i = 0; i < 15; i++) {
           const tokenURI = await myContract.tokenURI(i);
           const response = await fetch(tokenURI);
-          const { image } = await response.json();
-          cardArray.push(image);
+          const cardData = await response.json();
+
+          cardArray.push(cardData);
         }
 
         setItems(cardArray);
+
         if (cardArray.length > 0) {
           setLoading(false);
         }
@@ -49,7 +51,7 @@ function Cards() {
 
   return (
     <div className='card-container'>
-      {loading ? <Spinner /> : <WalletCardList images={items} />}
+      {loading ? <Spinner /> : <WalletCardList cardData={items} />}
     </div>
   );
 }

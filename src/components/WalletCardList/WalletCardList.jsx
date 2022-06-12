@@ -1,13 +1,32 @@
 import WalletCardItem from '../WalletCardItem//WalletCardItem';
 import './WalletCardList-styles.scss';
 
-function WalletCardList({ images }) {
-  // You will map card list here.Each will return a card Item
+import { useState } from 'react';
+
+function WalletCardList({ cardData }) {
+  // You will map cardData here. It contains name,image,attributes...
+
+  const changeHandler = (e) => {};
+
   return (
-    <div className='cardList'>
-      {images.map((image, index) => (
-        <WalletCardItem key={index} image={image} />
-      ))}
+    <div className='cardList-container'>
+      <input
+        type='search'
+        className='searchBox'
+        placeholder='Search Rarity or Card'
+        onChange={changeHandler}
+      />
+
+      <div className='cardList'>
+        {cardData.map((data) => (
+          <WalletCardItem
+            key={data.id}
+            image={data.image}
+            name={data.name}
+            rarity={data.attributes[0].value}
+          />
+        ))}
+      </div>
     </div>
   );
 }

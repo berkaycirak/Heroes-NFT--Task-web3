@@ -1,11 +1,25 @@
-.cardList {
+.cardList-container {
   position: relative;
   z-index: 999;
-  padding-top: 15rem;
+  padding-top: 10rem;
   padding-left: 15rem;
   padding-right: 15rem;
   text-align: center;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 3rem;
+
+  .cardList {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 3rem;
+  }
+
+  .searchBox {
+    border: 1px solid white;
+    margin-bottom: 5rem;
+    background-color: black;
+    opacity: 0.5;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+  }
 }

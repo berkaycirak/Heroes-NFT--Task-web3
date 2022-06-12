@@ -1,9 +1,10 @@
 import './WalletCardItem.styles.scss';
 
-function WalletCardItem({ image }) {
+function WalletCardItem({ image, name, rarity }) {
   return (
     <div className='cardItem'>
       <img className='cardItem-image' src={image} alt='' />
+      <p className='cardItem-name'>{name}</p>
     </div>
   );
 }
