@@ -1,9 +1,9 @@
-import WalletCardItem from '../WalletCardItem//WalletCardItem';
-import './WalletCardList-styles.scss';
+import CardItem from '../CardItem/CardItem';
+import './CardList-styles.scss';
 
 import { useState, useEffect } from 'react';
 
-function WalletCardList({ cardData }) {
+function CardList({ cardData }) {
   // You will map cardData here. It contains name,image,attributes...
   const [searchText, setSearchText] = useState('');
   const [filteredData, setFilteredData] = useState(cardData);
@@ -13,13 +13,13 @@ function WalletCardList({ cardData }) {
     setSearchText(e.target.value.toLocaleLowerCase());
   };
 
-  // In order to filter data
+  // In order to filter the data according to search box. When searchText changes, this useEffect will be triggered, and newFiltered array will be created.
   useEffect(() => {
     const newFilteredData = cardData.filter((item) => {
       return item.attributes[0].value.toLocaleLowerCase().includes(searchText);
     });
     setFilteredData(newFilteredData);
-  }, [searchText]);
+  }, [searchText, cardData]);
 
   return (
     <div className='cardList-container'>
@@ -37,7 +37,7 @@ function WalletCardList({ cardData }) {
 
       <div className='cardList'>
         {filteredData.map((data) => (
-          <WalletCardItem
+          <CardItem
             key={data.id}
             image={data.image}
             name={data.name}
@@ -49,4 +49,4 @@ function WalletCardList({ cardData }) {
   );
 }
 
-export default WalletCardList;
+export default CardList;

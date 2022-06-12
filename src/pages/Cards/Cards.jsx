@@ -3,15 +3,15 @@ import { useContext } from 'react';
 import ContractContext from '../../context/SmartContractActions';
 
 import Spinner from '../../components/layout/Spinner/Spinner';
-
-import WalletCardList from '../../components/WalletCardList/WalletCardList';
+import CardList from '../../components/CardList/CardList';
 
 function Cards() {
+  // Items and loading info come from global context API.
   const { items, loading } = useContext(ContractContext);
 
   return (
     <div className='card-container'>
-      {loading ? <Spinner /> : <WalletCardList cardData={items} />}
+      {loading ? <Spinner /> : <CardList cardData={items} />}
     </div>
   );
 }

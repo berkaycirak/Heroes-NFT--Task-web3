@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Wallet from './pages/Wallet/Wallet';
 import Cards from './pages/Cards/Cards';
 import Navbar from './components/layout/Navbar/Navbar';
-import Explore from './pages/Explore/Explore';
+import Home from './pages/Home/Home';
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Explore />} />
+          <Route path='/' element={<Home />} />
           <Route path='/cards' element={<Cards />} />
           <Route path='/wallet' element={<Wallet />} />
         </Routes>

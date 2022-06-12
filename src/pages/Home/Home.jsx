@@ -1,5 +1,4 @@
-// This is our Hero Component below the navbar which is shown when the app is opened.
-import './Explore.styles.scss';
+import './Home.styles.scss';
 import videoBg from '../../assets/hero-animation.mp4';
 import { Link } from 'react-router-dom';
 

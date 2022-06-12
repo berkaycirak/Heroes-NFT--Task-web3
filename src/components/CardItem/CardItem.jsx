@@ -1,6 +1,6 @@
-import './WalletCardItem.styles.scss';
+import './CardItem.styles.scss';
 
-function WalletCardItem({ image, name, rarity }) {
+function CardItem({ image, name, rarity }) {
   return (
     <div className='cardItem'>
       <img className='cardItem-image' src={image} alt='' />
@@ -10,4 +10,4 @@ function WalletCardItem({ image, name, rarity }) {
   );
 }
 
-export default WalletCardItem;
+export default CardItem;
