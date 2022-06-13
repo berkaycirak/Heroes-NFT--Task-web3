@@ -99,7 +99,7 @@ export const ContractProvider = ({ children }) => {
     return nftCollection;
   };
 
-  // Get Balance of user
+  // Get HRO Balance of User
   const getBalanceHandler = async () => {
     let yourBalance = await myContract.balanceOf(state.walletAddress);
     yourBalance = ethers.utils.formatEther(yourBalance).toString() / 1e-18;
