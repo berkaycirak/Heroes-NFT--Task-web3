@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 // Contract Instance
 const provider = new ethers.providers.Web3Provider(window.ethereum);
+
 const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 const daiABI = data;
 let signer;
@@ -52,8 +53,6 @@ export const ContractProvider = ({ children }) => {
         cardArray.push(cardData);
       }
 
-      // MIGHT NOT WORK !!!!!!!!!!!!!!!!!
-
       // After looping is done, pass that cardArray into items.
       dispatch({
         type: 'GET_CONTRACT_DATA',
@@ -61,21 +60,26 @@ export const ContractProvider = ({ children }) => {
       });
     };
     getCards();
+    //eslint-disable-next-line
   }, []);
 
   // Connect Wallet
   const connectWalletHandler = async () => {
     try {
-      await provider.send('eth_requestAccounts', []);
-      signer = provider.getSigner();
-      const address = await signer.getAddress();
+      if (window.ethereum) {
+        await provider.send('eth_requestAccounts', []);
+        signer = provider.getSigner();
+        const address = await signer.getAddress();
 
-      dispatch({
-        type: 'GET_USER_ADDRESS',
-        payload: address,
-      });
+        dispatch({
+          type: 'GET_USER_ADDRESS',
+          payload: address,
+        });
 
-      toast.success('You are connected.');
+        toast.success('You are connected.');
+      } else {
+        toast('You Need to install MetaMask!');
+      }
     } catch (error) {
       toast.error('An error is occured while connecting MetaMask!');
     }
@@ -84,6 +88,10 @@ export const ContractProvider = ({ children }) => {
   // Get User NFT Collection
   const getTokenCollection = async () => {
     const nftCollection = await myContract.tokensOfOwner(state.walletAddress);
+
+    if (nftCollection.lenght === 0) {
+      toast.error('You do not have any NTF.');
+    }
 
     dispatch({ type: 'GET_USER_NFTs', payload: nftCollection });
   };
@@ -128,11 +136,7 @@ export const ContractProvider = ({ children }) => {
   return (
     <ContractContext.Provider
       value={{
-        items: state.items,
-        loading: state.loading,
-        walletAddress: state.walletAddress,
-        isLogged: state.isLogged,
-        filteredTokens: state.filteredTokens,
+        ...state,
         myContract,
         connectWalletHandler,
         getTokenCollection,

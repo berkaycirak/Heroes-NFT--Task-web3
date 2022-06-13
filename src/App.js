@@ -6,6 +6,7 @@ import Wallet from './pages/Wallet/Wallet';
 import Cards from './pages/Cards/Cards';
 import Navbar from './components/layout/Navbar/Navbar';
 import Home from './pages/Home/Home';
+import NFTList from './pages/NFTList/NFTList';
 
 function App() {
   return (
@@ -16,13 +17,15 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/cards' element={<Cards />} />
           <Route path='/wallet' element={<Wallet />} />
+          <Route path='/wallet/nft-list' element={<NFTList />} />
         </Routes>
         <ToastContainer
-          position='top-right'
+          position='top-center'
           autoClose={5000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
+          theme='dark'
           rtl={false}
           pauseOnFocusLoss
           draggable

@@ -2,9 +2,20 @@
   position: fixed;
   width: 100%;
   height: 100vh;
+  // In order to avoid flashing when refreshing the page, I put an overlay at the top of the body background. I want to show video only, when home page is opened, not body background !
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+  }
 
   &-button {
     position: absolute;
+    z-index: 2;
     top: 50%;
     left: 50%;
     transform: translateX(-50%);
@@ -12,8 +23,10 @@
   }
 
   video {
+    position: relative;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 1;
   }
 }
