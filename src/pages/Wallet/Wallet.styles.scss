@@ -30,5 +30,25 @@
     .balance {
       color: white;
     }
+
+    .info {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: black 1px solid;
+      border-radius: 10px;
+      background-color: green;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      padding: 10px;
+      opacity: 0;
+      transition: opacity 300ms ease-in-out;
+
+      &.active {
+        opacity: 1;
+      }
+    }
   }
 }

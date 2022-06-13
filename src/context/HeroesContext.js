@@ -23,6 +23,7 @@ export const ContractProvider = ({ children }) => {
     walletAddress: '',
     tokensOwner: [],
     filteredTokens: [],
+    balance: '',
   };
 
   const [state, dispatch] = useReducer(heroesReducer, initialState);
@@ -45,7 +46,7 @@ export const ContractProvider = ({ children }) => {
       // Loop through that URIs, and push them into an array. Looping asynchronous functions is a bit slow if the length is too high.
       let cardArray = [];
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 90; i++) {
         const tokenURI = await myContract.tokenURI(i);
         const response = await fetch(tokenURI);
         const cardData = await response.json();
@@ -89,17 +90,21 @@ export const ContractProvider = ({ children }) => {
   const getTokenCollection = async () => {
     const nftCollection = await myContract.tokensOfOwner(state.walletAddress);
 
-    if (nftCollection.lenght === 0) {
+    if (nftCollection.length === 0) {
       toast.error('You do not have any NTF.');
     }
 
     dispatch({ type: 'GET_USER_NFTs', payload: nftCollection });
+
+    return nftCollection;
   };
 
   // Get Balance of user
   const getBalanceHandler = async () => {
     let yourBalance = await myContract.balanceOf(state.walletAddress);
     yourBalance = ethers.utils.formatEther(yourBalance).toString() / 1e-18;
+
+    dispatch({ type: 'GET_USER_BALANCE', payload: yourBalance });
   };
 
   //Get Users NFTs
@@ -140,6 +145,7 @@ export const ContractProvider = ({ children }) => {
         myContract,
         connectWalletHandler,
         getTokenCollection,
+        getBalanceHandler,
       }}
     >
       {children}

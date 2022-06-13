@@ -1,38 +1,55 @@
 import './Wallet.styles.scss';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import ContractContext from '../../context/HeroesContext';
 
 function Wallet() {
   const {
     getBalanceHandler,
     connectWalletHandler,
-
     getTokenCollection,
+    balance,
     isLogged,
     tokensOwner,
   } = useContext(ContractContext);
+
+  const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className='wallet-container'>
       <div className='wallet'>
         {isLogged ? (
           <div>
-            <button onClick={getBalanceHandler} className='balance'>
-              Get Balance
-            </button>
-            <button onClick={getTokenCollection} className='balance'>
-              <Link
-                className='link'
-                to={`${
-                  tokensOwner.length === 0 ? '/wallet' : '/wallet/nft-list'
-                }  `}
+            {
+              <p className={`info ${isActive && 'active'}`}>
+                Your Balance: {balance} HRO
+              </p>
+            }
+            <div>
+              <button
+                onClick={() => {
+                  getBalanceHandler();
+                  setIsActive(true);
+                }}
+                className='balance'
+              >
+                Get Balance
+              </button>
+              <button
+                onClick={async () => {
+                  let collection = await getTokenCollection();
+                  if (collection.length > 0) {
+                    navigate('/wallet/nft-list');
+                  }
+                }}
+                className='balance'
               >
                 My NFTs
-              </Link>
-            </button>
+              </button>
+            </div>
           </div>
         ) : (
           <div>

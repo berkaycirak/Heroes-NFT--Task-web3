@@ -12,6 +12,11 @@ const heroesReducer = (state, action) => {
         ...state,
         tokensOwner: action.payload,
       };
+    case 'GET_USER_BALANCE':
+      return {
+        ...state,
+        balance: action.payload,
+      };
 
     case 'GET_USER_ADDRESS':
       return {
