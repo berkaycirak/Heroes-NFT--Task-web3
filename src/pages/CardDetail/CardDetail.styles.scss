@@ -1,0 +1,50 @@
+.cardContainer {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  max-width: 1400px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 20px;
+
+  .title {
+    text-align: center;
+    margin: 20px;
+    color: black;
+  }
+
+  .card-content {
+    display: flex;
+
+    img {
+      height: 100%;
+      width: 400px;
+    }
+
+    .card-description {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 18px;
+      font-weight: bold;
+      color: #efefef;
+      padding: 30px;
+      padding-top: 0;
+
+      .card-attributes {
+        display: flex;
+        gap: 50px;
+        padding: 10px;
+        justify-content: center;
+
+        .attribute {
+          border: 1px solid black;
+          border-radius: 10px;
+          padding: 10px;
+          color: rgb(173, 165, 114);
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+}

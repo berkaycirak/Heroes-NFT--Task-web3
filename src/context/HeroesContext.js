@@ -45,7 +45,7 @@ export const ContractProvider = ({ children }) => {
       // Loop through that URIs, and push them into an array. Looping asynchronous functions is a bit slow if the length is too high.
       let cardArray = [];
 
-      for (let i = 0; i < 90; i++) {
+      for (let i = 0; i < 5; i++) {
         const tokenURI = await myContract.tokenURI(i);
         const response = await fetch(tokenURI);
         const cardData = await response.json();

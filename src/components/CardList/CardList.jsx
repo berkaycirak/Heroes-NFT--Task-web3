@@ -39,6 +39,7 @@ function CardList({ cardData }) {
         {filteredData.map((data) => (
           <CardItem
             key={data.id}
+            id={data.id}
             image={data.image}
             name={data.name}
             rarity={data.attributes[0].value}
