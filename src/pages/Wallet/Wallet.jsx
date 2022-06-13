@@ -1,7 +1,7 @@
 import './Wallet.styles.scss';
 
 import { Link } from 'react-router-dom';
-import Spinner from '../../components/layout/Spinner/Spinner';
+
 import { useContext } from 'react';
 import ContractContext from '../../context/HeroesContext';
 
@@ -20,7 +20,6 @@ function Wallet() {
       <div className='wallet'>
         {isLogged ? (
           <div>
-            {' '}
             <button onClick={getBalanceHandler} className='balance'>
               Get Balance
             </button>

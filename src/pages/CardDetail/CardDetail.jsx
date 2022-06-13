@@ -1,5 +1,4 @@
 import './CardDetail.styles.scss';
-import CardItem from '../../components/CardItem/CardItem';
 import { useParams } from 'react-router-dom';
 
 import { useContext } from 'react';
@@ -13,7 +12,6 @@ function CardDetail() {
   const detailedCardData = items.filter((item) => item.id == params.cardId);
 
   const details = detailedCardData[0];
-  console.log(details);
 
   return (
     <div className='cardContainer'>

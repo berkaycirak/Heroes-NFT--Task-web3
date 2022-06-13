@@ -1,5 +1,5 @@
 import './Cards.styles.scss';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import ContractContext from '../../context/HeroesContext';
 
 import Spinner from '../../components/layout/Spinner/Spinner';
