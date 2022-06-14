@@ -46,7 +46,7 @@ export const ContractProvider = ({ children }) => {
       // Since there will be bunch of fetching and promise issues, I prefer to store promises in an array, then read all by using "promise.all". In this way, nft informations can be fetched in an optimized way.
 
       const URI_promises = [];
-      console.time('Data is loaded');
+      console.time('Data is loaded in');
 
       for (let i = 0; i < totalCards; i++) {
         const URI_promise = myContract.tokenURI(i);
@@ -69,7 +69,7 @@ export const ContractProvider = ({ children }) => {
         type: 'GET_CONTRACT_DATA',
         payload: nftInfos,
       });
-      console.timeEnd('Data is loaded');
+      console.timeEnd('Data is loaded in');
     };
     getCards();
     //eslint-disable-next-line
@@ -77,7 +77,7 @@ export const ContractProvider = ({ children }) => {
 
   // Connect Wallet
 
-  // This function detects whether account is changed or not
+  // This function detects whether account is changed or not.
   const accountChangedHandler = (newAccount) => {
     if (newAccount.length === 1) {
       dispatch({
@@ -93,7 +93,10 @@ export const ContractProvider = ({ children }) => {
   };
 
   // This is an event listiner of ethereum, when account change is detected, it will fire callback by passing new account into it.
-  window.ethereum.on('accountsChanged', accountChangedHandler);
+  window.ethereum.on('accountsChanged', (accounts) => {
+    accountChangedHandler(accounts);
+    window.location.reload();
+  });
 
   const connectWalletHandler = () => {
     try {

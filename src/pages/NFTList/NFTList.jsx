@@ -2,6 +2,7 @@ import './NFTList.styles.scss';
 import CardList from '../../components/CardList/CardList';
 
 import { useContext } from 'react';
+
 import ContractContext from '../../context/HeroesContext';
 
 function NFTList() {

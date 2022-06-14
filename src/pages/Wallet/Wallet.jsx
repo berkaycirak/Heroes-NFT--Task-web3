@@ -53,7 +53,7 @@ function Wallet() {
         ) : (
           <div>
             <button onClick={connectWalletHandler} className='connect'>
-              Connect to Metamask
+              Connect to Wallet
             </button>
           </div>
         )}
