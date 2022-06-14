@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Explore() {
   return (
     <div className='hero'>
-      <video src={videoBg} autoPlay muted loop></video>
+      <video src={videoBg} autoPlay muted loop playsInline></video>
       <div className='hero-button btn'>
         <Link className='link' to='/cards'>
           EXPLORE
