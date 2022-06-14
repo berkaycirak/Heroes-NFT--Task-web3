@@ -1,6 +1,11 @@
 // If there is no action, you will not change state, so as a default you return state.
 const heroesReducer = (state, action) => {
   switch (action.type) {
+    case 'SET_CONTRACT':
+      return {
+        ...state,
+        myConract: action.payload,
+      };
     case 'GET_CONTRACT_DATA':
       return {
         ...state,

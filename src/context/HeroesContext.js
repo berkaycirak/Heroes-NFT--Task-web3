@@ -1,12 +1,18 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import heroesReducer from './HeroesReducer';
 import { ethers } from 'ethers';
 import data from '../data/data.json';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
+if (!window.ethereum) {
+  toast('Download metamask');
+}
+
 // Contract Instance
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+const provider = new ethers.providers.JsonRpcProvider(
+  'https://api.avax-test.network/ext/bc/C/rpc'
+);
 const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 const daiABI = data;
 
@@ -29,7 +35,6 @@ export const ContractProvider = ({ children }) => {
 
   // Contract Instance
   const myContract = new ethers.Contract(daiAddress, daiABI, provider);
-
   // Fetching URI from Smart Contract. When app is started, fetching will also be started.
 
   useEffect(() => {
@@ -93,10 +98,11 @@ export const ContractProvider = ({ children }) => {
   };
 
   // This is an event listiner of ethereum, when account change is detected, it will fire callback by passing new account into it.
-  window.ethereum.on('accountsChanged', (account) => {
-    accountChangedHandler(account);
-    window.location.reload();
-  });
+
+  // window.ethereum.on('accountsChanged', (account) => {
+  //   accountChangedHandler(account);
+  //   window.location.reload();
+  // });
 
   const connectWalletHandler = () => {
     try {
