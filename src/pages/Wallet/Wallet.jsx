@@ -1,6 +1,6 @@
 import './Wallet.styles.scss';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useContext, useState } from 'react';
 import ContractContext from '../../context/HeroesContext';
@@ -12,7 +12,6 @@ function Wallet() {
     getTokenCollection,
     balance,
     isLogged,
-    tokensOwner,
   } = useContext(ContractContext);
 
   const [isActive, setIsActive] = useState(false);

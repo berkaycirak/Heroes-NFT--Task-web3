@@ -6,6 +6,7 @@ import ContractContext from '../../context/HeroesContext';
 
 function CardDetail() {
   const { items } = useContext(ContractContext);
+  console.log(items);
   const params = useParams();
 
   //eslint-disable-next-line

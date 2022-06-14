@@ -3,13 +3,12 @@ import heroesReducer from './HeroesReducer';
 import { ethers } from 'ethers';
 import data from '../data/data.json';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 // Contract Instance
 const provider = new ethers.providers.Web3Provider(window.ethereum);
-
 const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
 const daiABI = data;
-let signer;
 
 // Creating Context API
 const ContractContext = createContext();
@@ -31,7 +30,7 @@ export const ContractProvider = ({ children }) => {
   // Contract Instance
   const myContract = new ethers.Contract(daiAddress, daiABI, provider);
 
-  // Fetching URI from Smart Contract, when app is started, fetching will also be started.
+  // Fetching URI from Smart Contract. When app is started, fetching will also be started.
 
   useEffect(() => {
     // Contract Instance Creation
@@ -43,43 +42,70 @@ export const ContractProvider = ({ children }) => {
       totalCards = ethers.utils.formatEther(totalCards).toString() / 1e-18;
       totalCards = Number(totalCards);
 
-      // Loop through that URIs, and push them into an array. Looping asynchronous functions is a bit slow if the length is too high.
-      let cardArray = [];
+      // Loop through that URIs, and push them into an array.
+      // Since there will be bunch of fetching and promise issues, I prefer to store promises in an array, then read all by using "promise.all". In this way, nft informations can be fetched in an optimized way.
 
-      for (let i = 0; i < 90; i++) {
-        const tokenURI = await myContract.tokenURI(i);
-        const response = await fetch(tokenURI);
-        const cardData = await response.json();
+      const URI_promises = [];
+      console.time('Data is loaded');
 
-        cardArray.push(cardData);
+      for (let i = 0; i < totalCards; i++) {
+        const URI_promise = myContract.tokenURI(i);
+        URI_promises.push(URI_promise);
       }
+      const URIs = await Promise.all(URI_promises);
 
-      // After looping is done, pass that cardArray into items.
+      const nftURLs_promises = [];
+      //eslint-disable-next-line
+      URIs.map((result) => {
+        const nftURL_promise = axios.get(result);
+        nftURLs_promises.push(nftURL_promise);
+      });
+
+      const nftURLs = await Promise.all(nftURLs_promises);
+      const nftInfos = [];
+      nftURLs.map((item) => nftInfos.push(item.data));
+
       dispatch({
         type: 'GET_CONTRACT_DATA',
-        payload: cardArray,
+        payload: nftInfos,
       });
+      console.timeEnd('Data is loaded');
     };
     getCards();
     //eslint-disable-next-line
   }, []);
 
   // Connect Wallet
-  const connectWalletHandler = async () => {
+
+  // This function detects whether account is changed or not
+  const accountChangedHandler = (newAccount) => {
+    if (newAccount.length === 1) {
+      dispatch({
+        type: 'GET_USER_ADDRESS',
+        payload: newAccount[0],
+      });
+    } else {
+      dispatch({
+        type: 'GET_USER_ADDRESS',
+        payload: newAccount,
+      });
+    }
+  };
+
+  // This is an event listiner of ethereum, when account change is detected, it will fire callback by passing new account into it.
+  window.ethereum.on('accountsChanged', accountChangedHandler);
+
+  const connectWalletHandler = () => {
     try {
       if (window.ethereum) {
-        await provider.send('eth_requestAccounts', []);
-        signer = provider.getSigner();
-        const address = await signer.getAddress();
-
-        dispatch({
-          type: 'GET_USER_ADDRESS',
-          payload: address,
-        });
-
-        toast.success('You are connected.');
+        window.ethereum
+          .request({ method: 'eth_requestAccounts' })
+          .then((result) => {
+            accountChangedHandler(result[0]);
+            toast.success('You are connected.');
+          });
       } else {
-        toast('You Need to install MetaMask!');
+        toast.error('You Need to install MetaMask!');
       }
     } catch (error) {
       toast.error('An error is occured while connecting MetaMask!');
@@ -103,11 +129,13 @@ export const ContractProvider = ({ children }) => {
   const getBalanceHandler = async () => {
     let yourBalance = await myContract.balanceOf(state.walletAddress);
     yourBalance = ethers.utils.formatEther(yourBalance).toString() / 1e-18;
-
-    dispatch({ type: 'GET_USER_BALANCE', payload: yourBalance });
+    dispatch({
+      type: 'GET_USER_BALANCE',
+      payload: Number(yourBalance).toFixed(),
+    });
   };
 
-  //Get Users NFTs
+  //Filtering Users NFTs
 
   useEffect(() => {
     // This will return id of the each token. Since return value is a big Number, we should convert it to normal number

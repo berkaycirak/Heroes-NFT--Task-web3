@@ -19,7 +19,7 @@ function CardList({ cardData }) {
       return item.attributes[0].value.toLocaleLowerCase().includes(searchText);
     });
     setFilteredData(newFilteredData);
-  }, [searchText, cardData]);
+  }, [searchText, cardData, setFilteredData]);
 
   return (
     <div className='cardList-container'>
