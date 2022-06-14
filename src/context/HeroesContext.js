@@ -5,10 +5,6 @@ import data from '../data/data.json';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 
-if (!window.ethereum) {
-  toast('Download metamask');
-}
-
 // Contract Instance
 const provider = new ethers.providers.JsonRpcProvider(
   'https://api.avax-test.network/ext/bc/C/rpc'
