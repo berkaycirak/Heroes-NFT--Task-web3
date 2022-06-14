@@ -1,0 +1,25 @@
+.top-to-btn {
+  position: relative;
+  .icon-position {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    z-index: 1000;
+  }
+  .icon-style {
+    background-color: #551b54;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+
+    &:hover {
+      background: #fff;
+      color: #551b54;
+      border: 2px solid #551b54;
+    }
+  }
+}

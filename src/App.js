@@ -8,6 +8,7 @@ import Navbar from './components/layout/Navbar/Navbar';
 import Home from './pages/Home/Home';
 import NFTList from './pages/NFTList/NFTList';
 import CardDetail from './pages/CardDetail/CardDetail';
+import UpButton from './components/layout/UpButton/UpButton';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/wallet' element={<Wallet />} />
           <Route path='/wallet/nft-list' element={<NFTList />} />
         </Routes>
+        <UpButton />
         <ToastContainer
           position='top-center'
           autoClose={5000}

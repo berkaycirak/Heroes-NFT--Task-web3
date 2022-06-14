@@ -1,10 +1,11 @@
 .cardItem {
   position: relative;
-  height: 400px;
-  width: 300px;
+  max-width: 300px;
   transition: all ease-in-out 300ms;
   cursor: pointer;
   overflow: hidden;
+  left: 50%;
+  transform: translateX(-50%);
 
   &::after {
     content: '';

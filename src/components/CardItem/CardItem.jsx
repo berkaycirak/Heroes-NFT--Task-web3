@@ -6,8 +6,6 @@ function CardItem({ image, name, rarity, id }) {
     <div className='cardItem'>
       <Link to={`/cards/${id}`} className='categoryListingLink'>
         <img className='cardItem-image' src={image} alt='' />
-        <p className='cardItem-name'>{name}</p>
-        <p className='cardItem-name'>{rarity}</p>
       </Link>
     </div>
   );

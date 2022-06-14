@@ -93,8 +93,8 @@ export const ContractProvider = ({ children }) => {
   };
 
   // This is an event listiner of ethereum, when account change is detected, it will fire callback by passing new account into it.
-  window.ethereum.on('accountsChanged', (accounts) => {
-    accountChangedHandler(accounts);
+  window.ethereum.on('accountsChanged', (account) => {
+    accountChangedHandler(account);
     window.location.reload();
   });
 
@@ -148,9 +148,9 @@ export const ContractProvider = ({ children }) => {
 
       const nftArray = [];
       state.tokensOwner.forEach((token) => {
-        let x = ethers.utils.formatEther(token).toString() / 1e-18;
-        x = x.toFixed(0);
-        nftArray.push(Number(x));
+        let card = ethers.utils.formatEther(token).toString() / 1e-18;
+        card = card.toFixed(0);
+        nftArray.push(Number(card));
       });
 
       // If items are not loaded yet, you will not see any filteredNFT. You should wait till items are loaded.

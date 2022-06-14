@@ -15,24 +15,30 @@ function CardDetail() {
   const details = detailedCardData[0];
 
   return (
-    <div className='cardContainer'>
-      <div className='card-content'>
-        <div className='card-image'>
-          <img src={details.image} alt='' />
-        </div>
-        <div className='card-description'>
+    <div className='cardDetail'>
+      <div className='cardContainer'>
+        <div className='card-content'>
           <h1 className='title'>{details.name}</h1>
-
-          <p>{details.description}</p>
-          <div className='card-attributes'>
-            <div className='attribute'>
-              <h3>Rarity: {details.attributes[0].value} </h3>
+          <div className='responsive'>
+            <div className='card-image'>
+              <img src={details.image} alt='' />
             </div>
-            <div className='attribute'>
-              <h3>Class: {details.attributes[2].value} </h3>
-            </div>
-            <div className='attribute'>
-              <h3>Tendency: {details.attributes[3].value} </h3>
+            <div className='bottom'>
+              <div className='card-attributes'>
+                <div className='attribute'>
+                  <h3 className='attribute-title'>Rarity</h3>
+                  <h4>{details.attributes[0].value.toUpperCase()}</h4>
+                </div>
+                <div className='attribute'>
+                  <h3 className='attribute-title'>Class</h3>
+                  <h4>{details.attributes[2].value.toUpperCase()} </h4>
+                </div>
+                <div className='attribute'>
+                  <h3 className='attribute-title'>Tendency</h3>
+                  <h4>{details.attributes[3].value.toUpperCase()} </h4>
+                </div>
+              </div>
+              <p className='story'>{details.description}</p>
             </div>
           </div>
         </div>
