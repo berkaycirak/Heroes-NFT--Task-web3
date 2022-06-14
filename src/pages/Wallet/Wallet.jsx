@@ -29,8 +29,8 @@ function Wallet() {
             }
             <div>
               <button
-                onClick={() => {
-                  getBalanceHandler();
+                onClick={async () => {
+                  await getBalanceHandler();
                   setIsActive(true);
                 }}
                 className='balance'
