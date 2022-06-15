@@ -1,0 +1,67 @@
+.searches-container {
+  padding: 30px;
+  .searches {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-bottom: 40px;
+    grid-template-areas:
+      'name rarity rarity'
+      'defense attack endurance';
+
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .nameSearch {
+      grid-area: 'name';
+    }
+
+    .rarity-dropdown {
+      grid-area: 'rarity';
+    }
+
+    .attack-range {
+      grid-area: 'attack';
+    }
+
+    .defense-range {
+      grid-area: 'defense';
+    }
+    .endurance-range {
+      grid-area: 'endurance';
+    }
+
+    label {
+      display: inline-block;
+      color: #21d99b;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      padding: 3px;
+      background-color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      font-weight: bold;
+      border: 0.5px solid rgb(151, 150, 150);
+      border-radius: 5px;
+      color: white;
+
+      &:focus {
+        outline: none;
+      }
+
+      option {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: black;
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+  }
+}
