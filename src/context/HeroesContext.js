@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from 'react';
+import { createContext, useEffect, useReducer } from 'react';
 import heroesReducer from './HeroesReducer';
 import { ethers } from 'ethers';
 import data from '../data/data.json';
@@ -9,13 +9,13 @@ import axios from 'axios';
 const provider = new ethers.providers.JsonRpcProvider(
   'https://api.avax-test.network/ext/bc/C/rpc'
 );
-const daiAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
-const daiABI = data;
+const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+const contractABI = data;
 
 // Creating Context API
-const ContractContext = createContext();
+const HeroesContext = createContext();
 
-export const ContractProvider = ({ children }) => {
+export const HeroesProvider = ({ children }) => {
   // Initialize Reducer State
   const initialState = {
     items: [],
@@ -30,7 +30,11 @@ export const ContractProvider = ({ children }) => {
   const [state, dispatch] = useReducer(heroesReducer, initialState);
 
   // Contract Instance
-  const myContract = new ethers.Contract(daiAddress, daiABI, provider);
+  const myContract = new ethers.Contract(
+    contractAddress,
+    contractABI,
+    provider
+  );
   // Fetching URI from Smart Contract. When app is started, fetching will also be started.
 
   useEffect(() => {
@@ -95,10 +99,10 @@ export const ContractProvider = ({ children }) => {
 
   // This is an event listiner of ethereum, when account change is detected, it will fire callback by passing new account into it.
 
-  // window.ethereum.on('accountsChanged', (account) => {
-  //   accountChangedHandler(account);
-  //   window.location.reload();
-  // });
+  window.ethereum.on('accountsChanged', (account) => {
+    accountChangedHandler(account);
+    window.location.reload();
+  });
 
   const connectWalletHandler = () => {
     try {
@@ -172,7 +176,7 @@ export const ContractProvider = ({ children }) => {
     });
 
   return (
-    <ContractContext.Provider
+    <HeroesContext.Provider
       value={{
         ...state,
         myContract,
@@ -182,8 +186,8 @@ export const ContractProvider = ({ children }) => {
       }}
     >
       {children}
-    </ContractContext.Provider>
+    </HeroesContext.Provider>
   );
 };
 
-export default ContractContext;
+export default HeroesContext;

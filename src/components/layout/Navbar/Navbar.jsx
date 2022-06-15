@@ -20,7 +20,7 @@ function Navbar() {
               <img src={logo} alt='logo' />
             </Link>
           </li>
-          <div className='navbar-links hide-for-mobile '>
+          <div className='navbar-links  '>
             <li>
               <span
                 onClick={() => {

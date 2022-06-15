@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ContractProvider } from './context/HeroesContext';
+import { HeroesProvider } from './context/HeroesContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Wallet from './pages/Wallet/Wallet';
@@ -12,7 +12,7 @@ import UpButton from './components/layout/UpButton/UpButton';
 
 function App() {
   return (
-    <ContractProvider>
+    <HeroesProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
@@ -36,7 +36,7 @@ function App() {
           pauseOnHover
         />
       </BrowserRouter>
-    </ContractProvider>
+    </HeroesProvider>
   );
 }
 
