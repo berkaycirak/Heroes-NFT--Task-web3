@@ -12,7 +12,6 @@
 
   &-list {
     display: flex;
-    list-style-type: none;
     justify-content: space-between;
     text-align: center;
     align-items: center;
@@ -24,6 +23,7 @@
 
     li {
       color: white;
+      list-style-type: none;
     }
 
     .navbar-links {
