@@ -99,10 +99,12 @@ export const HeroesProvider = ({ children }) => {
 
   // This is an event listiner of ethereum, when account change is detected, it will fire callback by passing new account into it.
 
-  window.ethereum.on('accountsChanged', (account) => {
-    accountChangedHandler(account);
-    window.location.reload();
-  });
+  if (window.ethereum) {
+    window.ethereum.on('accountsChanged', (account) => {
+      accountChangedHandler(account);
+      window.location.reload();
+    });
+  }
 
   const connectWalletHandler = () => {
     try {
